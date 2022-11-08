@@ -1,6 +1,3 @@
-/**
- *Submitted for verification at BscScan.com on 2022-07-11
-*/
 
 // SPDX-License-Identifier: MIT
 // CaptainGlory!.
