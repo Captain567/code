@@ -922,8 +922,8 @@ contract CaptainGlory is ERC20, Ownable {
     mapping (address => uint256) public antiDump;
     mapping (address => uint256) public sellingTotal;
     mapping (address => uint256) public lastSellstamp;
-    uint256 public antiDumpTime = 10 minutes;
-    uint256 public antiDumpAmount = totaltokensupply.mul(5).div(10000);
+    uint256 public antiDumpTime = 1440 minutes;
+    uint256 public antiDumpAmount = totaltokensupply.mul(35).div(10000000);
 
 
 
