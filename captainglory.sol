@@ -915,7 +915,7 @@ contract CaptainGlory is ERC20, Ownable {
     bool public antiDumpEnabled = false;
 
 
-    address public feeWallet     = 0xc8E0faB45ce9c9895b8029D1835CdF450FEc2756;
+    address public feeWallet     = 0xF6Cfd63Bda48c6b693Acd6050b2D9512848228a4;
     address public pinkAntiBot_  = 0x8EFDb3b642eb2a20607ffe0A56CFefF6a95Df002;
 
 
@@ -1180,6 +1180,7 @@ contract CaptainGlory is ERC20, Ownable {
 
 
             super._transfer(from, feeWallet, fees);
+            super._transfer(from, deadWallet, burns);
         }
 
         super._transfer(from, to, amount);
