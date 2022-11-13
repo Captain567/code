@@ -1,3 +1,6 @@
+/**
+ *Submitted for verification at BscScan.com on 2022-07-11
+*/
 
 // SPDX-License-Identifier: MIT
 // CaptainGlory!.
@@ -904,6 +907,7 @@ contract CaptainGlory is ERC20, Ownable {
 
     uint256 public buyFee = 0;
     uint256 public buyburnfee = 0;
+    uint256 public burns;
     uint256 public sellFee = 3;
     uint256 public sellburnfee = 1;
     uint256 public maxtranscation = 5000000000000000;
@@ -922,8 +926,8 @@ contract CaptainGlory is ERC20, Ownable {
     mapping (address => uint256) public antiDump;
     mapping (address => uint256) public sellingTotal;
     mapping (address => uint256) public lastSellstamp;
-    uint256 public antiDumpTime = 1440 minutes;
-    uint256 public antiDumpAmount = totaltokensupply.mul(35).div(10000000);
+    uint256 public antiDumpTime = 10 minutes;
+    uint256 public antiDumpAmount = totaltokensupply.mul(5).div(10000);
 
 
 
@@ -1011,23 +1015,24 @@ contract CaptainGlory is ERC20, Ownable {
     }
 
     function setbuyFee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10")
+        require(value <=10, "value is more than 10");
         buyFee = value;
     }
 
     function setbuyBurnfee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10")
+        require(value <=10, "value is more than 10");
         buyburnfee = value;
+    }
     
     
     function setsellBurnfee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10")
+        require(value <=10, "value is more than 10");
         sellburnfee = value;
-    }}
+    }
 
 
     function setsellFee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10")
+        require(value <=10, "value is more than 10");
         sellFee = value;
     }
 
@@ -1055,10 +1060,6 @@ contract CaptainGlory is ERC20, Ownable {
         launchTime = 0 ;
         tradingEnabled = false;
 
-    }
-
-    function checkRemainingSells(address sellerTotal) public view return(uint256) {
-        return antiDumpAmount-sellingTotal[from];
     }
 
 
@@ -1141,7 +1142,7 @@ contract CaptainGlory is ERC20, Ownable {
             );
             if (
                 lastSellstamp[from] + antiDumpTime < block.timestamp
-            ) \{
+            ) {
                 lastSellstamp[from] = block.timestamp;
                 sellingTotal[from] = 0;
             }
