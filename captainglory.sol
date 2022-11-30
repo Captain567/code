@@ -1,9 +1,3 @@
-/**
- *Submitted for verification at BscScan.com on 2022-07-11
-*/
-
-// SPDX-License-Identifier: MIT
-// CaptainGlory!.
 pragma solidity ^0.8.7;
 
 
@@ -896,7 +890,7 @@ contract CaptainGlory is ERC20, Ownable {
     bool public tradingEnabled;
     uint256 public launchTime;
 
-    uint256 internal totaltokensupply = 56000000000 * (10**9);
+    uint256 internal totaltokensupply = 5000000000 * (10**9);
 
 
     address public deadWallet = 0x000000000000000000000000000000000000dEaD;
@@ -906,11 +900,8 @@ contract CaptainGlory is ERC20, Ownable {
     IPinkAntiBot public pinkAntiBot;
 
     uint256 public buyFee = 0;
-    uint256 public buyburnfee = 0;
-    uint256 public burns;
-    uint256 public sellFee = 3;
-    uint256 public sellburnfee = 1;
-    uint256 public maxtranscation = 5000000000000000;
+    uint256 public sellFee = 12;
+    uint256 public maxtranscation = 2500000000000000;
 
     bool public antiBotEnabled;
     bool public antiDumpEnabled = false;
@@ -926,7 +917,7 @@ contract CaptainGlory is ERC20, Ownable {
     mapping (address => uint256) public antiDump;
     mapping (address => uint256) public sellingTotal;
     mapping (address => uint256) public lastSellstamp;
-    uint256 public antiDumpTime = 10 minutes;
+    uint256 public antiDumpTime = 24 hours;
     uint256 public antiDumpAmount = totaltokensupply.mul(5).div(10000);
 
 
@@ -1015,24 +1006,10 @@ contract CaptainGlory is ERC20, Ownable {
     }
 
     function setbuyFee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10");
         buyFee = value;
     }
 
-    function setbuyBurnfee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10");
-        buyburnfee = value;
-    }
-    
-    
-    function setsellBurnfee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10");
-        sellburnfee = value;
-    }
-
-
     function setsellFee(uint256 value) external onlyOwner{
-        require(value <=10, "value is more than 10");
         sellFee = value;
     }
 
@@ -1044,11 +1021,10 @@ contract CaptainGlory is ERC20, Ownable {
         feeWallet = feaddress;
     }
 
+
     function setfeeActive(bool value) external onlyOwner {
         feeActive = value;
     }
-
-
 
     function startTrading() external onlyOwner{
         require(launchTime == 0, "Already Listed!");
@@ -1134,9 +1110,6 @@ contract CaptainGlory is ERC20, Ownable {
             !_isExcludedFromFees[from]
         ) {
             require(
-                sellingTotal[from]<=antiDumpAmount,"exceeding Sell Limit"
-            );
-            require(
                 antiDump[from] < block.timestamp,
                 "Err: antiDump active"
             );
@@ -1167,18 +1140,15 @@ contract CaptainGlory is ERC20, Ownable {
             if(automatedMarketMakerPairs[from])
             {
         	    fees += amount.mul(buyFee).div(100);
-                burns += amount.mul(buyburnfee).div(100);
         	}
         	if(automatedMarketMakerPairs[to]){
         	    fees += amount.mul(sellFee).div(100);
-                burns += amount.mul(sellburnfee).div(100);
         	}
-        	amount = amount.sub(fees).sub(burns);
+        	amount = amount.sub(fees);
 
 
 
             super._transfer(from, feeWallet, fees);
-            super._transfer(from, deadWallet, burns);
         }
 
         super._transfer(from, to, amount);
