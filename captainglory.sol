@@ -1008,10 +1008,12 @@ contract CaptainGlory is ERC20, Ownable {
     }
 
     function setbuyFee(uint256 value) external onlyOwner{
+        require(value <= 25, "value should not be greater than 25");
         buyFee = value;
     }
 
     function setsellFee(uint256 value) external onlyOwner{
+        require(value <= 25, "value should not be greater than 25");
         sellFee = value;
     }
 
