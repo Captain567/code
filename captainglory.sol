@@ -887,7 +887,7 @@ contract CaptainGlory is ERC20, Ownable {
     address public  uniswapV2Pair;
 
     bool private feeActive = true;
-    bool public tradingEnabled;
+    bool public tradingEnabled = false;
     uint256 public launchTime;
 
     uint256 internal totaltokensupply = 5000000000 * (10**9);
@@ -976,6 +976,8 @@ contract CaptainGlory is ERC20, Ownable {
     }
 
     function setantiDump(uint256 interval, uint256 amount) external onlyOwner {
+        require(amount >= totaltokensupply.mul(1).div(1000000),"Amount is less than the required limit");
+        require(antiDumpTime <= 1 days, "exceeding more than 1 day");
         antiDumpTime = interval;
         antiDumpAmount = amount;
     }
@@ -1014,6 +1016,7 @@ contract CaptainGlory is ERC20, Ownable {
     }
 
     function setmaxtranscation(uint256 value) external onlyOwner{
+        require(value >= totaltokensupply.mul(1).div(10000), " less than max transaction limit");
         maxtranscation = value;
     }
 
@@ -1030,12 +1033,6 @@ contract CaptainGlory is ERC20, Ownable {
         require(launchTime == 0, "Already Listed!");
         launchTime = block.timestamp;
         tradingEnabled = true;
-    }
-
-    function pauseTrading() external onlyOwner{
-        launchTime = 0 ;
-        tradingEnabled = false;
-
     }
 
 
